@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const readline = require('readline');
+// const clc = require('cli-colors');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -29,55 +30,53 @@ const getRandomInt = (min, max) => {
 }
 
 const generateHint = (guess) =>  {
-  let solutionArr = solution.split('');
-  let guessArr = guess.split('');
-  let correctLetter = 0;
-  let correctLocation = 0;
-  
-  solutionArr.forEach((i)=>{
-    if (solutionArr[i] === guessArr[i]) {
-      correctLocation ++;
-      solutionArr[i] = null;
-    }
-  })
+  let solutionArray = solution.split("");
+  let guessArray = guess.split("");
+  let correctLetters = 0;
+  let correctLetterLocations = 0;
 
-  for (let i = 0; i < solutionArr.length; i++) {
-    if (solutionArr[i] === guess[i]) {
-      correctLocation ++;
-      solutionArr[i] = null;
+  for (let i = 0; i < solutionArray.length; i++) {
+    if (solutionArray[i] === guessArray[i]) {
+      correctLetterLocations ++;
+      solutionArray[i] = null;
     }
   }
-
-  solutionArr.forEach((i)=>{
-    let target = solutionArr.indexOf(guess[i])
-    if (target > -1) {
-      correctLetter++;
-      solution[target] = null;
+  for (let i = 0; i < solutionArray.length; i++) {
+    let targetIndex = solutionArray.indexOf(guessArray[i])
+    if (targetIndex > -1) {
+      correctLetters++;
+      solutionArray[targetIndex] = null;
     }
-  })
-
-  let hint = correctLocation.toString() + "-" + correctLetter.toString();
+  }
+  // console.log(clc.red(correctLetterLocations.toString())) + "-" + clc.yellowBright(correctLetters.toString())
+  let hint = correctLetterLocations.toString() + "-" + correctLetters.toString();
   return hint;
 }
 
+
+
 const mastermind = (guess) => {
+  solution = 'abcd'; // Comment this out to generate a random solution
+  // your code here
   if (solution === guess) {
-    console.log('You guessed it!')
-    return 'You guessed it!'
+    console.log("You guessed it!")
+    return "You guessed it!"
+
   }
   else {
     let hint = generateHint(guess);
-    board.push(guess + ' ' + hint)
+    board.push(guess + " " + hint)
     if (board.length > 10) {
-      console.log('You ran out of turns!')
-      return 'You ran out of turns!'
+      console.log("You ran out of turns!")
+      return "You ran out of turns!"
     }
     else {
-      console.log('Guess Again!')
-      return 'Guess Again'
+      console.log("Guess Again!")
+      return "Guess Again"
     }
   }
 }
+
 
 const getPrompt = () =>  {
   rl.question('guess: ', (guess) => {
